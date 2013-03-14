@@ -8,7 +8,7 @@ class EndpointManager():
     def get_endpoint(endpoint_id, email = None):
         if not email:
             email = google_users.get_current_user().nickname()
-        return db.GqlQuery('SELECT FROM Endpoint WHERE email = :1 AND __key__ = :2 LIMIT 1', 
+        return db.GqlQuery('SELECT * FROM Endpoint WHERE email = :1 AND __key__ = :2 LIMIT 1',
             email, db.Key(endpoint_id))[0]
 
     @staticmethod

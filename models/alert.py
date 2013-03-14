@@ -10,7 +10,7 @@ class AlertManager(object):
     def get_alert(alert_id, email = None):
         if not email:
             email = google_users.get_current_user().nickname()
-        return db.GqlQuery('SELECT FROM Alert WHERE email = :1 AND __key__ = :2 LIMIT 1', 
+        return db.GqlQuery('SELECT * FROM Alert WHERE email = :1 AND __key__ = :2 LIMIT 1',
             email, db.Key(alert_id))[0]
 
     @staticmethod
