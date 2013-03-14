@@ -9,22 +9,7 @@ from lib.multidict import MultiDict
 
 from models.endpoint import EndpointManager, Endpoint
 from models.user import UserManager
-
-
-class EndpointForm(Form):
-    provider = SelectField(u'Provider', [Required()], choices=[('pd', 'PagerDuty')])
-    description = TextField('Description', [Required()])
-    service_key = TextField('Service Key', [Required()])
-    alert_text = TextField('Alert Text', [Required()])
-    
-    def __init__(self, formdata=None, obj=None, prefix='', endpoint=None, **kwargs): 
-        if endpoint:
-            kwargs.setdefault('provider', endpoint.provider) 
-            kwargs.setdefault('description', endpoint.description) 
-            kwargs.setdefault('service_key', endpoint.service_key) 
-            kwargs.setdefault('alert_text', endpoint.alert_text) 
-        Form.__init__(self, formdata, obj, prefix, **kwargs)
-
+from controllers.endpoint import EndpointForm
 
 class EndpointAPIHandler(tornado.web.RequestHandler):
     # no easy way to pass errors to get_error_html()
