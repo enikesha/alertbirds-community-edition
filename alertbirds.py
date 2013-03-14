@@ -12,7 +12,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'etc'))
 
 import tornado.web
 import tornado.wsgi
-import wsgiref.simple_server
 
 from models.user import UserManager, User
 
@@ -58,9 +57,3 @@ application = tornado.wsgi.WSGIApplication([
     (r'/cron/(.*)/(.*)/?', CronHandler),
     (r'/(.*)/?', MainHandler) # must be last
 ], **settings)
-
-def main():
-    wsgiref.handlers.CGIHandler().run(application)
-
-if __name__ == '__main__':
-    main()

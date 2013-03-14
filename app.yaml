@@ -1,7 +1,12 @@
 application: alertbirds
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
+
+libraries:
+- name: django
+  version: "1.3"
 
 handlers:
 - url: /static/images
@@ -16,11 +21,12 @@ handlers:
   static_files: static/images/favicon.ico
   upload: static/images/favicon\.ico 
 - url: /cron/.*
-  script: alertbirds.py
+  script: alertbirds.application
+  login: admin
 - url: /
-  script: alertbirds.py
+  script: alertbirds.application
   secure: always
 - url: /.*
-  script: alertbirds.py
+  script: alertbirds.application
   login: required
   secure: always
