@@ -45,5 +45,6 @@ class EndpointAPIHandler(tornado.web.RequestHandler):
         endpoint.description = self.get_argument('description', '')
         endpoint.service_key = self.get_argument('service_key')
         endpoint.alert_text = self.get_argument('alert_text', '')
+        endpoint.saving()
         endpoint.put()
         self.redirect('/%s' % subdomain)

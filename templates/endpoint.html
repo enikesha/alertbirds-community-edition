@@ -21,7 +21,6 @@
         <li>
             <div class="form_label">
             {{ form.provider.label }}
-            <a class="question" id="endpoint_info" tooltip="(optional) Alert Birds doesn't send out email or SMS alerts.  PagerDuty is available as an escalation service.">?</a>
             </div>
             <div class="form_element">
                 {{ form.provider }} 
@@ -38,7 +37,7 @@
         <li>
             <div class="form_label">
             {{ form.service_key.label }}
-            <a id="servicekey_info" class="question" tooltip="Generate a service key for Alert Birds in Pager Duty and use it here to trigger your Pager Duty alerts.">?</a>
+            <a id="servicekey_info" class="question" tooltip="Use Pager Duty service keys, or XMPP/Email addresses.">?</a>
             </div>
             <div class="form_element">
                 {{ form.service_key }}
@@ -47,7 +46,7 @@
         <li>
             <div class="form_label">
                 {{ form.alert_text.label }}
-                <a id="description_info" class="question" tooltip="Alert details sent to Pager Duty.">?</a>
+                <a id="description_info" class="question" tooltip="Alert text send to endpoint.">?</a>
             </div>
             <div class="form_element">
                 {{ form.alert_text }}

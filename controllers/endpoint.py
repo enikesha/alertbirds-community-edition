@@ -4,13 +4,13 @@ from wtforms import Form, BooleanField, TextField, validators, SelectField, Text
 from wtforms.validators import Required
 
 from lib.multidict import MultiDict
-from models.endpoint import EndpointManager, Endpoint
+from models.endpoint import EndpointManager, Endpoint, PROVIDERS
 from models.user import UserManager
 
 from page import PageHandler
 
 class EndpointForm(Form):
-    provider = SelectField(u'Endpoint', [Required()], choices=[('pd', 'PagerDuty')])
+    provider = SelectField(u'Endpoint', [Required()], choices=PROVIDERS)
     description = TextAreaField('Description', [Required()])
     service_key = TextField('Service Key', [Required()])
     alert_text = TextField('Alert Text', [Required()])

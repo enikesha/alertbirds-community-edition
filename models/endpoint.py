@@ -1,7 +1,15 @@
-from google.appengine.ext import db
+from google.appengine.api import mail
 from google.appengine.api import users as google_users
+from google.appengine.api import xmpp
+from google.appengine.api.app_identity import get_application_id
+from google.appengine.ext import db
 
 from django.utils import simplejson as json
+
+from pagerduty import PagerDuty
+
+PROVIDERS = [('pd', 'PagerDuty'),
+             ('xmpp', 'GTalk/Email')]
 
 class EndpointManager():
     @staticmethod
@@ -27,6 +35,36 @@ class Endpoint(db.Model):
 
     def __str__(self):
         return unicode(self).encode('utf-8')
+
+    def saving(self):
+        if self.provider == 'xmpp':
+            # Send xmpp invites on save
+            for jid in self.service_key.split(','):
+                xmpp.send_invite(jid.strip())
+
+    def xmpp_send(self, type):
+        if self.provider == 'xmpp':
+            body = u"[{0}] {1}".format(type, self.alert_text)
+            jids = map(lambda i: i.strip(), self.service_key.split(','))
+            xmpp.send_message(jids, body)
+            #And send emails too
+            subject = u"[{0}] AlertBirds".format(type)
+            sender = "sender@{0}.appspotmail.com".format(get_application_id())
+            mail.send_mail(sender, self.service_key, subject, body)
+
+    def trigger(self, alert):
+        if self.provider == 'pd':
+            pagerduty = PagerDuty(self.service_key)
+            pagerduty.trigger(self.alert_text, unicode(alert.key()), alert.description)
+        elif self.provider == 'xmpp':
+            self.xmpp_send('TRIGGER')
+
+    def resolve(self, alert):
+        if self.provider == 'pd':
+            pagerduty = PagerDuty(self.service_key)
+            pagerduty.resolve(unicode(alert.key()))
+        elif self.provider == 'xmpp':
+            self.xmpp_send('RESOLVE')
 
     def __unicode__(self):
         return json.dumps({'id': unicode(self.key()),

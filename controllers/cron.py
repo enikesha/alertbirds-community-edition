@@ -11,8 +11,6 @@ import pusher
 
 from django.utils import simplejson as json
 
-from pagerduty import PagerDuty
-
 import config
 import lib.oauth
 from lib.loggly import Loggly
@@ -88,9 +86,7 @@ class CronHandler(tornado.web.RequestHandler):
                                 result = pusher_client[alert_channel].trigger('chirp', data=alert_json)
 
                                 if alert.endpoint:
-                                    endpoint = EndpointManager.get_endpoint(alert.endpoint, alert.email)
-                                    pagerduty = PagerDuty(endpoint.service_key)
-                                    pagerduty.resolve(unicode(alert.key()))
+                                    EndpointManager.get_endpoint(alert.endpoint, alert.email).resolve(alert)
                         else:
                             if alert.state == 'N':
                                 alert.state = 'C'
@@ -102,9 +98,7 @@ class CronHandler(tornado.web.RequestHandler):
                             result = pusher_client[alert_channel].trigger('chirp', data=alert_json)
 
                             if alert.endpoint:
-                                endpoint = EndpointManager.get_endpoint(alert.endpoint, alert.email)
-                                pagerduty = PagerDuty(endpoint.service_key)
-                                pagerduty.trigger(endpoint.alert_text, unicode(alert.key()), alert.description)
+                                EndpointManager.get_endpoint(alert.endpoint, alert.email).trigger(alert)
 
                         # if pagerduty is experiencing an outage, still re-run next minute
                         # that's why we set last_run at the bottom
