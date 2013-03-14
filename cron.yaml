@@ -1,48 +1,48 @@
 cron:
-- url:/cron/secret/0
+- url: /cron/secret/0
   schedule: every 1 minutes
 
-- url:/cron/secret/1
+- url: /cron/secret/1
   schedule: every 1 minutes
 
-- url:/cron/secret/2
+- url: /cron/secret/2
   schedule: every 1 minutes
 
-- url:/cron/secret/3
+- url: /cron/secret/3
   schedule: every 1 minutes
 
-- url:/cron/secret/4
+- url: /cron/secret/4
   schedule: every 1 minutes
 
-- url:/cron/secret/5
+- url: /cron/secret/5
   schedule: every 1 minutes
 
-- url:/cron/secret/6
+- url: /cron/secret/6
   schedule: every 1 minutes
 
-- url:/cron/secret/7
+- url: /cron/secret/7
   schedule: every 1 minutes
 
-- url:/cron/secret/8
+- url: /cron/secret/8
   schedule: every 1 minutes
 
-- url:/cron/secret/9
+- url: /cron/secret/9
   schedule: every 1 minutes
 
-- url:/cron/secret/a
+- url: /cron/secret/a
   schedule: every 1 minutes
 
-- url:/cron/secret/b
+- url: /cron/secret/b
   schedule: every 1 minutes
 
-- url:/cron/secret/c
+- url: /cron/secret/c
   schedule: every 1 minutes
 
-- url:/cron/secret/d
+- url: /cron/secret/d
   schedule: every 1 minutes
 
-- url:/cron/secret/e
+- url: /cron/secret/e
   schedule: every 1 minutes
 
-- url:/cron/secret/f
+- url: /cron/secret/f
   schedule: every 1 minutes
