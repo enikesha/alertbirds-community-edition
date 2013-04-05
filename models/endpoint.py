@@ -1,3 +1,5 @@
+import logging
+
 from google.appengine.api import mail
 from google.appengine.api import users as google_users
 from google.appengine.api import xmpp
@@ -46,11 +48,19 @@ class Endpoint(db.Model):
         if self.provider == 'xmpp':
             body = u"[{0}] {1}".format(type, self.alert_text)
             jids = map(lambda i: i.strip(), self.service_key.split(','))
-            xmpp.send_message(jids, body)
+            try:
+                xmpp.send_message(jids, body)
+            except Exception, ex:
+                logging.error({'module': 'models.endpoing', 'message': 'xmpp.send_message error: %s' % ex})
+
             #And send emails too
             subject = u"[{0}] AlertBirds".format(type)
             sender = "sender@{0}.appspotmail.com".format(get_application_id())
-            mail.send_mail(sender, self.service_key, subject, body)
+            try:
+                mail.send_mail(sender, self.service_key, subject, body)
+            except Exception, ex:
+                logging.error({'module': 'models.endpoing', 'message': 'mail.send_mail error: %s' % ex})
+
 
     def trigger(self, alert):
         if self.provider == 'pd':
